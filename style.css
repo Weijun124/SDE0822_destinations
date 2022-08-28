@@ -1,19 +1,32 @@
 * {
   box-sizing: border-box;
 }
+body {
+  height: 100vh;
+  width: 100vw;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+/* header */
 .header-container {
   background-color: #e9ecef;
   box-shadow: 0 0 0 3px #e9ecef;
+  padding: 1rem 1rem;
+  text-align: center;
 }
 .heading {
   margin: 3px 3px;
   border: 7px solid rgb(82, 220, 82);
+  width: 100%;
 }
 .header-head {
   font-family: system-ui;
   text-align: center;
   margin-top: 30px;
+  font-size: 3.5rem;
   font-weight: 300;
+  line-height: 1.2;
 }
 .header-message {
   text-align: center;
@@ -21,31 +34,61 @@
 }
 .information {
   display: flex;
-  align-content: center;
+  position: relative;
+  justify-content: space-around;
   padding: 0 80px;
   margin-top: 8px;
 }
+/* left box */
 .left-box {
   border: 7px solid red;
   padding: 10px 100px;
   height: 70vh;
+  width:40%;
+  position: relative;
+  margin-right: 4em;
 }
-fieldset {
-  width: 245px;
-}
+
 label {
-  width: 100%;
-  margin: 6px 0;
-  padding: 4px 0;
+  display: inline-block;
+  margin-bottom: 0.5rem;
 }
 input {
   display: block;
   width: 100%;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #ced4da;
 }
 #description {
   width: 100%;
   margin-bottom: 10px;
+  border: 1px solid #ced4da;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
 }
-.btn{
-  font-size: 15px;
+.btn {
+  width: 100%;
+}
+/* right box */
+.right-box {
+  border: 7px solid blue;
+  position: relative;
+  width: 40%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.right-header{
+  border: 7px solid #EF58F8;
+  margin-top: 5px;
+  padding-bottom: 6px;
+}
+.right-description{
+  border: 7px solid yellow;
+  height:87%
 }
