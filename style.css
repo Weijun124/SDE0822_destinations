@@ -35,7 +35,7 @@ body {
 .information {
   display: flex;
   position: relative;
-  justify-content: space-around;
+  justify-content: space-evenly;
   padding: 0 80px;
   margin-top: 8px;
 }
