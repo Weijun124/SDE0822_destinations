@@ -1,144 +1,126 @@
 let form = document.getElementById("form");
-let destination = document.getElementById("destination");
-let locationArea = document.getElementById("locationArea");
-let photo = document.getElementById("photo");
-let description = document.getElementById("description");
-let rightContainer = document.getElementsByClassName("rightDescription");
-let checkValue = false;
-let originValue = [destination, locationArea, photo,description];
-let validEdit=[destination.value, locationArea.value, photo.value,description.value];
+let originValue = [];
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  checkFunctions(originValue);
-  if (checkValue !== true) {
-    return;
-  } else {
-    cardCreated();
-  }
+  const destination = document.getElementById("destination").value;
+  const locationArea = document.getElementById("locationArea").value;
+  const photo = document.getElementById("photo").value;
+  const description = document.getElementById("description").value;
+  originValue = [destination, locationArea, photo, description];
+  cardCreated(originValue);
+  form.reset();
 });
-function checkFunctions(valueArray) {
-  const validValue = valueArray.map((x) => {
-    let inValidValue=[];
-    if (x.value.trim().length === 0) {
-      alert(`Please enter a valid ${x.id}`);
-      inValidValue.push(x.value);
-    } 
-    if(inValidValue.length===0){
-      checkValue=true;
-    }else{
-      checkValue=false;
-    }
-  });
-}
 
 function cardCreated() {
-  let cardContainer = document.createElement("div");
+  const rightContainer = document.getElementsByClassName("rightDescription");
+  const cardContainer = document.createElement("div");
   cardContainer.classList.add("card");
-  cardContainer.style.width = "100%";
+  cardContainer.style.width = "18rem";
   rightContainer[0].append(cardContainer);
   imgCreated(cardContainer);
   informationCreated(cardContainer);
   buttonContainer(cardContainer);
 }
+
 function imgCreated(cardContainer) {
   let imgContainer = document.createElement("img");
-  imgContainer.setAttribute("src", `${photo.value}`);
-  imgContainer.setAttribute("alt", "destination Photo");
+  if (originValue[2].length !== 0) {
+    imgContainer.setAttribute("src", `${originValue[2]}`);
+  } else {
+    imgContainer.setAttribute(
+      "src",
+      "https://images.unsplash.com/photo-1661792808945-847fd0d6b78a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+    );
+  }
+  imgContainer.setAttribute("alt", `${originValue[0]} at ${originValue[1]}`);
   imgContainer.classList.add("card-img-top");
   cardContainer.append(imgContainer);
 }
+
 function informationCreated(cardContainer) {
   let informationContainer = document.createElement("div");
-  informationContainer.setAttribute(
-    "class",
-    "card-body,justify-content-center,align-items-center"
-  );
-  informationContainer.style.width = "100%";
+  informationContainer.classList.add("card-body");
   cardContainer.append(informationContainer);
   inforTitle(informationContainer);
   inforDescription(informationContainer);
 }
+
 function inforTitle(informationContainer) {
   let theTitle = document.createElement("h5");
   theTitle.classList.add("card-title");
-  theTitle.innerText = `${destination.value.trim()}`;
+  theTitle.innerText = `${originValue[0]}`;
   informationContainer.append(theTitle);
 }
+
 function inforDescription(informationContainer) {
-  let theDescription = document.createElement("p");
+  const theDescription = document.createElement("p");
   theDescription.classList.add("card-text");
-  theDescription.innerText = `${description.value.trim()}`;
+  theDescription.innerText = `${originValue[3]}`;
   informationContainer.append(theDescription);
 }
+
 function buttonContainer(cardContainer) {
   let buttonKeeper = document.createElement("div");
-  buttonKeeper.setAttribute("class", "button-container");
+  buttonKeeper.classList.add("button-container");
   cardContainer.append(buttonKeeper);
   searchBut(buttonKeeper);
   editButton(buttonKeeper);
-  deleteBtn(buttonKeeper, cardContainer);
+  deleteBtn(buttonKeeper);
 }
+
 function searchBut(buttonKeeper) {
   let searchLocation = document.createElement("a");
-  searchLocation.href = `https://www.google.com/maps/place/${locationArea.value.trim()}`;
+  searchLocation.href = `https://www.google.com/maps/place/${originValue[1]}`;
   searchLocation.target = "_blank";
   searchLocation.type = "button";
-  searchLocation.setAttribute("class", "btn btn-info");
+  searchLocation.classList.add("btn", "btn-info");
   searchLocation.innerText = "Location";
   buttonKeeper.append(searchLocation);
 }
+
 function editButton(buttonKeeper) {
   let editCard = document.createElement("button");
-  editCard.type = "button";
-  editCard.setAttribute("class", "btn btn-primary");
-  let randomId = Math.floor(Math.random() * 20000);
-  editCard.id = `edit${randomId}`;
+  editCard.classList.add("btn", "btn-primary");
   editCard.innerText = "Edit";
   buttonKeeper.append(editCard);
-  let editB = document.getElementById(`edit${randomId}`);
+  editCard.addEventListener("click", (e) => {
+    const editPhoto=e.target.parentElement.parentElement.children[0];
+    const editDesnation=e.target.parentElement.parentElement.children[1].children[0];
+    const editDescription=e.target.parentElement.parentElement.children[1].children[1];
+    const editLocation=e.target.previousSibling;
 
-  editB.addEventListener("click", (e) => {
-    destinationValue = prompt("Edit: Destination");
-    locationAreaValue = prompt("Edit: Location");
-    photoValue = prompt("Edit: Photo URLs");
-    descriptionValue = prompt("Edit: Descriptions");
-    let validValue = [destinationValue, locationAreaValue, photoValue,descriptionValue];
-    console.log(checkEdit(validValue))
-    e.target.parentElement.parentElement.children[0].src = checkEdit(validValue)[2];
-    e.target.parentElement.parentElement.children[1].children[0].innerText =
-    checkEdit(validValue)[0];
-    e.target.parentElement.parentElement.children[1].children[1].innerText =
-    checkEdit(validValue)[3];
-    e.target.parentElement.parentElement.children[2].href = `https://www.google.com/maps/place/${checkEdit(validValue)[1]}`;
-  });
+    
+    const destinationValue = prompt("Edit: Destination", editDesnation.innerText);
+    const locationAreaValue = prompt("Edit: Location", editLocation.href);
+    const photoValue = prompt("Edit: Photo URLs", editPhoto.src);
+    const descriptionValue = prompt("Edit: Descriptions", editDescription.innerText);
+
+
+    if(editDesnation.innerText!==destinationValue&&destinationValue!==null){
+      editDesnation.innerText=destinationValue
+    }
+    if(editLocation.href!==locationAreaValue&&locationAreaValue!==null){
+      editLocation.href=locationAreaValue
+    }
+    if(editPhoto.src!==photoValue&&photoValue!==null){
+      editPhoto.src=photoValue;
+    }
+    if(editDescription.innerText!==descriptionValue&&descriptionValue!==null){
+      editDescription.innerText=descriptionValue;
+    }
+  })
 }
-function deleteBtn(buttonKeeper, cardContainer) {
-  let deleteCard = document.createElement("button");
-  deleteCard.type = "button";
-  deleteCard.setAttribute("class", "btn btn-danger");
-  let randomId = Math.floor(Math.random() * 20000);
-  deleteCard.id = `delete${randomId}`;
+
+function deleteBtn(buttonKeeper) {
+  const deleteCard = document.createElement("button");
+  deleteCard.classList.add("btn", "btn-danger");
   deleteCard.innerText = "Delete";
   buttonKeeper.append(deleteCard);
-  let deleteB = document.getElementById(`delete${randomId}`);
-  deleteB.addEventListener("click", () => {
+  deleteCard.addEventListener("click", (e) => {
     let confirmValue = confirm("Are you sure you want to delete this card?");
     if (confirmValue) {
-      cardContainer.remove();
+      e.target.parentElement.parentElement.remove();
     }
   });
-}
-
-function checkEdit(validValue) {
-  let count=0;
-  for(let value of validValue) {
-    if(value!=null) {
-      validEdit.splice(count,1,validValue[count])
-      count++
-    }else{
-      count++
-    }
-  }
-return validEdit;
 }

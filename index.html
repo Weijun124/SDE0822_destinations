@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <section class="header-container">
+    <header class="header-container">
       <div class="heading">
         <h1 class="header-head">Vacation Destinations WishList</h1>
         <p class="header-message">
@@ -26,9 +26,10 @@
           below to add them to your wishlist
         </p>
       </div>
-    </section>
-    <section class="information row col-sm-12">
-      <div class="left-box col-sm-12">
+    </header>
+
+    <main class="information row col-sm-12">
+      <section class="left-box col-sm-12">
         <form id="form">
               <label for="destination">Destinations name</label> 
                 <input type="text" name="destinations-name" id="destination" placeholder="Enter the name of the destination" required/>
@@ -36,20 +37,20 @@
                 <input type="text" id="locationArea" name="locationArea" placeholder="Where is it located?" required />
                 <label for="photo"
                 >Photo</label>
-                <input type="text" id="photo" name="photo" placeholder="Enter an image url of the place" required/>
+                <input type="text" id="photo" name="photo" placeholder="Enter an image url of the place" />
                 <label for="description" class="form-label"
                 >Description</label>
                 <textarea type="text" class="form-control"
                rows="6"  id="description" name="descriptyion" placeholder="Where is it located?" style="height: 100px"></textarea>
-          <button class="btn  btn-primary btn-lg" type="submit">Add to list</button>
-          <button class="btn  btn-dark btn-lg" type="reset">Reset</button>
+          <input class="btn  btn-primary btn-lg" type="submit" value="Add to list"></input>
         </form>
-      </div>
-      <div class="right-box col-sm-12">
+      </section>
+      <section class="right-box col-sm-12">
         <h4 class="right-header">Destination Details</h4>
         <div class="rightDescription"></div>
-      </div>
-    </section>
+      </section>
+    </main>
+
     
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
