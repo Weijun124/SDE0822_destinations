@@ -1,17 +1,13 @@
-let form = document.getElementById("form");
-let originValue = [];
 
-form.addEventListener("submit", (e) => {
+document.getElementById("form").addEventListener("submit", (e) => {
   e.preventDefault();
   const destination = document.getElementById("destination").value;
   const locationArea = document.getElementById("locationArea").value;
   const photo = document.getElementById("photo").value;
   const description = document.getElementById("description").value;
-  originValue = [destination, locationArea, photo, description];
-  cardCreated(originValue);
+  cardCreated();
   form.reset();
-});
-
+  
 function cardCreated() {
   const rightContainer = document.getElementsByClassName("rightDescription");
   const cardContainer = document.createElement("div");
@@ -25,15 +21,15 @@ function cardCreated() {
 
 function imgCreated(cardContainer) {
   let imgContainer = document.createElement("img");
-  if (originValue[2].length !== 0) {
-    imgContainer.setAttribute("src", `${originValue[2]}`);
+  if (photo.length !== 0) {
+    imgContainer.setAttribute("src", `${photo}`);
   } else {
     imgContainer.setAttribute(
       "src",
       "https://images.unsplash.com/photo-1661792808945-847fd0d6b78a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
     );
   }
-  imgContainer.setAttribute("alt", `${originValue[0]} at ${originValue[1]}`);
+  imgContainer.setAttribute("alt", `${destination} at ${locationArea}}`);
   imgContainer.classList.add("card-img-top");
   cardContainer.append(imgContainer);
 }
@@ -49,14 +45,14 @@ function informationCreated(cardContainer) {
 function inforTitle(informationContainer) {
   let theTitle = document.createElement("h5");
   theTitle.classList.add("card-title");
-  theTitle.innerText = `${originValue[0]}`;
+  theTitle.innerText = `${destination}`;
   informationContainer.append(theTitle);
 }
 
 function inforDescription(informationContainer) {
   const theDescription = document.createElement("p");
   theDescription.classList.add("card-text");
-  theDescription.innerText = `${originValue[3]}`;
+  theDescription.innerText = `${description}`;
   informationContainer.append(theDescription);
 }
 
@@ -71,7 +67,7 @@ function buttonContainer(cardContainer) {
 
 function searchBut(buttonKeeper) {
   let searchLocation = document.createElement("a");
-  searchLocation.href = `https://www.google.com/maps/place/${originValue[1]}`;
+  searchLocation.href = `https://www.google.com/maps/place/${locationArea}`;
   searchLocation.target = "_blank";
   searchLocation.type = "button";
   searchLocation.classList.add("btn", "btn-info");
@@ -124,3 +120,6 @@ function deleteBtn(buttonKeeper) {
     }
   });
 }
+});
+
+
