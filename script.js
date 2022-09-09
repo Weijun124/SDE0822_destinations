@@ -1,3 +1,4 @@
+import { elementFactory,handleDelete,handleEdit } from "./helperFun.js";
 
 document.getElementById("form").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -5,121 +6,77 @@ document.getElementById("form").addEventListener("submit", (e) => {
   const locationArea = document.getElementById("locationArea").value;
   const photo = document.getElementById("photo").value;
   const description = document.getElementById("description").value;
-  cardCreated();
-  form.reset();
-  
-function cardCreated() {
   const rightContainer = document.getElementsByClassName("rightDescription");
-  const cardContainer = document.createElement("div");
-  cardContainer.classList.add("card");
-  cardContainer.style.width = "18rem";
-  rightContainer[0].append(cardContainer);
-  imgCreated(cardContainer);
-  informationCreated(cardContainer);
-  buttonContainer(cardContainer);
-}
+  const defImg =
+    "https://images.unsplash.com/photo-1661792808945-847fd0d6b78a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80";
 
-function imgCreated(cardContainer) {
-  let imgContainer = document.createElement("img");
-  if (photo.length !== 0) {
-    imgContainer.setAttribute("src", `${photo}`);
-  } else {
-    imgContainer.setAttribute(
-      "src",
-      "https://images.unsplash.com/photo-1661792808945-847fd0d6b78a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-    );
-  }
-  imgContainer.setAttribute("alt", `${destination} at ${locationArea}}`);
-  imgContainer.classList.add("card-img-top");
-  cardContainer.append(imgContainer);
-}
+  document.getElementById("form").reset();
 
-function informationCreated(cardContainer) {
-  let informationContainer = document.createElement("div");
-  informationContainer.classList.add("card-body");
-  cardContainer.append(informationContainer);
-  inforTitle(informationContainer);
-  inforDescription(informationContainer);
-}
+  const cardContainer = elementFactory({
+    eltType: "div",
+    classNames: ["card"],
+    parentElt: rightContainer[0],
+    attrs: [{ name: "style", value: "width:18rem" }],
+  });
 
-function inforTitle(informationContainer) {
-  let theTitle = document.createElement("h5");
-  theTitle.classList.add("card-title");
-  theTitle.innerText = `${destination}`;
-  informationContainer.append(theTitle);
-}
+  const imgContainer = elementFactory({
+    eltType: "img",
+    classNames: ["card-img-top"],
+    parentElt: cardContainer,
+    attrs: [
+      { name: "alt", value: "can not find picture" },
+      { name: "src", value: photo.length === 0 ? defImg : photo },
+    ],
+  });
 
-function inforDescription(informationContainer) {
-  const theDescription = document.createElement("p");
-  theDescription.classList.add("card-text");
-  theDescription.innerText = `${description}`;
-  informationContainer.append(theDescription);
-}
+  const informationContainer = elementFactory({
+    eltType: "div",
+    classNames: ["card-body"],
+    parentElt: cardContainer,
+  });
 
-function buttonContainer(cardContainer) {
-  let buttonKeeper = document.createElement("div");
-  buttonKeeper.classList.add("button-container");
-  cardContainer.append(buttonKeeper);
-  searchBut(buttonKeeper);
-  editButton(buttonKeeper);
-  deleteBtn(buttonKeeper);
-}
+  const theTitle = elementFactory({
+    eltType: "h5",
+    classNames: ["card-title"],
+    parentElt: informationContainer,
+    text: `${destination}`,
+  });
 
-function searchBut(buttonKeeper) {
-  let searchLocation = document.createElement("a");
+  const theDescription = elementFactory({
+    text: description,
+    eltType: "p",
+    classNames: ["card-text"],
+    parentElt: informationContainer,
+  });
+
+  const buttonKeeper = elementFactory({
+    eltType: "div",
+    classNames: ["button-container"],
+    parentElt: cardContainer,
+  });
+
+  const searchLocation = elementFactory({
+    eltType: "a",
+    classNames: ["btn", "btn-info"],
+    text: "Location",
+    parentElt: buttonKeeper,
+  });
   searchLocation.href = `https://www.google.com/maps/place/${locationArea}`;
   searchLocation.target = "_blank";
-  searchLocation.type = "button";
-  searchLocation.classList.add("btn", "btn-info");
-  searchLocation.innerText = "Location";
-  buttonKeeper.append(searchLocation);
-}
 
-function editButton(buttonKeeper) {
-  let editCard = document.createElement("button");
-  editCard.classList.add("btn", "btn-primary");
-  editCard.innerText = "Edit";
-  buttonKeeper.append(editCard);
-  editCard.addEventListener("click", (e) => {
-    const editPhoto=e.target.parentElement.parentElement.children[0];
-    const editDesnation=e.target.parentElement.parentElement.children[1].children[0];
-    const editDescription=e.target.parentElement.parentElement.children[1].children[1];
-    const editLocation=e.target.previousSibling;
-
-    
-    const destinationValue = prompt("Edit: Destination", editDesnation.innerText);
-    const locationAreaValue = prompt("Edit: Location", editLocation.href);
-    const photoValue = prompt("Edit: Photo URLs", editPhoto.src);
-    const descriptionValue = prompt("Edit: Descriptions", editDescription.innerText);
-
-
-    if(editDesnation.innerText!==destinationValue&&destinationValue!==null){
-      editDesnation.innerText=destinationValue
-    }
-    if(editLocation.href!==locationAreaValue&&locationAreaValue!==null){
-      editLocation.href=locationAreaValue
-    }
-    if(editPhoto.src!==photoValue&&photoValue!==null){
-      editPhoto.src=photoValue;
-    }
-    if(editDescription.innerText!==descriptionValue&&descriptionValue!==null){
-      editDescription.innerText=descriptionValue;
-    }
-  })
-}
-
-function deleteBtn(buttonKeeper) {
-  const deleteCard = document.createElement("button");
-  deleteCard.classList.add("btn", "btn-danger");
-  deleteCard.innerText = "Delete";
-  buttonKeeper.append(deleteCard);
-  deleteCard.addEventListener("click", (e) => {
-    let confirmValue = confirm("Are you sure you want to delete this card?");
-    if (confirmValue) {
-      e.target.parentElement.parentElement.remove();
-    }
+  const editCard = elementFactory({
+    eltType: "button",
+    classNames: ["btn", "btn-primary"],
+    text: "Edit",
+    parentElt: buttonKeeper,
+    eventListener: {eventType:"click", eventHandler: handleEdit}
   });
-}
-});
 
-
+  const deleteCard = elementFactory({
+    eltType: "button",
+    classNames: ["btn", "btn-danger"],
+    text: "Delete",
+    parentElt: buttonKeeper,
+    eventListener: {eventType: "click", eventHandler : handleDelete},
+  });
+})
